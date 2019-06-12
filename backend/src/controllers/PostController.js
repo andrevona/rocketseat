@@ -11,6 +11,8 @@ module.exports = {
     },
 
     async store(req, res) {
+        // req.body => informações enviadas
+        // req.file => imagem enviada
         const { author, place, description, hashtags } = req.body;
         const { filename: image } = req.file;
 
@@ -35,6 +37,10 @@ module.exports = {
             hashtags,
             image: fileName,
         });
+
+        // envia info em tempo real de novo post a todos
+        // msg de nome 'post'
+        req.io.emit('post', post);
 
         return res.json(post);
     }
