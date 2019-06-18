@@ -9,15 +9,15 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 mongoose.connect('mongodb+srv://semana:semana@cluster0-jnqu6.mongodb.net/test?retryWrites=true&w=majority', {
-    useNewUrlParser: true
+   useNewUrlParser: true
 });
 
 // permite enviar info em tempo real a todas a rotas
 // acesso ao IO em toda os controllers
 app.use((req, res, next) => {
-    req.io = io;
+   req.io = io;
 
-    next();
+   next();
 })
 
 // todas as URL de diferentes IPs e servidores podem acessar o backend
