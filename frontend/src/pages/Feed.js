@@ -19,6 +19,11 @@ class Feed extends Component {
       this.setState({ feed: response.data });
    }
 
+   // no componente, a arrow function é usada p/ a função ser passada como referência em vez de ser executada
+   // dessa forma, o parâmetro é enviado corretamente
+   handleLike = id => {
+      api.post(`/posts/${id}/like`);
+   }
 
    render() {
       return(
@@ -37,7 +42,9 @@ class Feed extends Component {
 
                      <footer>
                            <div className="actions">
-                              <img src={like} alt=""/>
+                              <button type="button" onClick={() => this.handleLike(post._id) } >
+                                 <img src={like} alt=""/>
+                              </button>
                               <img src={comment} alt=""/>
                               <img src={send} alt=""/>
                            </div>
