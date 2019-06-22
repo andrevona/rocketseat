@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import api from '../services/api';
 import ImagePicker from 'react-native-image-picker';
 
 import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import Feed from './Feed';
 
 export default class New extends Component {
    static navigationOptions = {
@@ -10,6 +12,7 @@ export default class New extends Component {
 
    state = {
       preview: null,
+      image: null,
       author: '',
       place: '',
       description: '',
@@ -22,15 +25,49 @@ export default class New extends Component {
       }, upload => {
          if(upload.error) {
             console.log('Error');
-         } else if (upload.didCancel) {
+         } 
+         else if (upload.didCancel) {
             console.log('User canceled');
-         } else {
+         } 
+         else {
             const preview = {
                uri: `data:image/jpeg;base64,${upload.data}`,
             }
-            this.setState({ preview });
+            let prefix, ext;
+
+            // iOS não tem fileName quando a foto é tirada e ext é HEIC
+            if(upload.fileName) {
+               [prefix, ext] = upload.fileName.split('.');
+               ext = ext.toLocaleLowerCase() === 'heic' ? 'jpg' : ext;
+            } 
+            else {
+               prefix = new Date().getTime();
+               ext = 'jpg';
+            }
+
+            const image = {
+               uri: upload.uri,
+               type: upload.type,
+               name: `${prefix}.${ext}`
+            };
+
+            this.setState({ preview, image });
          }
       })
+   }
+
+   handleSubmit = async () => {
+      const data = new FormData();
+      
+      data.append('image', this.state.image);
+      data.append('author', this.state.author);
+      data.append('place', this.state.place);
+      data.append('description', this.state.description);
+      data.append('hashtags', this.state.hashtags);
+
+      await api.post('posts', data);
+
+      this.props.navigation.navigate('Feed');
    }
 
    render() {
@@ -87,7 +124,7 @@ export default class New extends Component {
 
             <TouchableOpacity 
                style={styles.shareButton}
-               onPress={ () => {} }
+               onPress={this.handleSubmit}
             >
                <Text style={styles.shareButtonText}>Compartilhar</Text>
             </TouchableOpacity>
