@@ -26,7 +26,7 @@ class Feed extends Component {
       const socket = io('http://localhost:3333');
 
       socket.on('post', newPost => {
-         this.setState({ feed: [newPost, ... this.state.feed] });
+         this.setState({ feed: [newPost, ...this.state.feed] });
       })
 
       socket.on('like', likedPost => {
