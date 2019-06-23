@@ -38,7 +38,7 @@ export default class Feed extends Component {
       const socket = io('http://localhost:3333');
 
       socket.on('post', newPost => {
-         this.setState({ feed: [newPost, ... this.state.feed] });
+         this.setState({ feed: [newPost, ...this.state.feed] });
       })
 
       socket.on('like', likedPost => {
@@ -81,20 +81,23 @@ export default class Feed extends Component {
                         <View style={styles.actions}>
                            <TouchableOpacity 
                               style={styles.action} 
-                              onPress={() => this.handleLike(item._id)}>
-                                 <Image source={like} 
+                              onPress={() => this.handleLike(item._id)}
+                           >
+                              <Image source={like} 
                            />
                            </TouchableOpacity>
                            <TouchableOpacity 
                               style={styles.action} 
-                              onPress={() => {}}>
-                                 <Image source={comment} 
+                              onPress={() => {}}
+                           >
+                              <Image source={comment} 
                            />
                            </TouchableOpacity>
                            <TouchableOpacity 
                               style={styles.action} 
-                              onPress={() => {}}>
-                                 <Image source={send} 
+                              onPress={() => {}}
+                           >
+                              <Image source={send} 
                            />
                            </TouchableOpacity>
                         </View>

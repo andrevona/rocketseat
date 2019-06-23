@@ -33,6 +33,7 @@ export default class New extends Component {
             const preview = {
                uri: `data:image/jpeg;base64,${upload.data}`,
             }
+
             let prefix, ext;
 
             // iOS não tem fileName quando a foto é tirada e ext é HEIC
@@ -130,7 +131,7 @@ export default class New extends Component {
             </TouchableOpacity>
 
          </View>
-         );
+      );
    }
 }
 

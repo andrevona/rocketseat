@@ -24,17 +24,10 @@ class New extends Component {
       data.append('description', this.state.description);
       data.append('hashtags', this.state.hashtags);
 
-      // enviar multiform
       await api.post('posts', data);
 
       // enviar usuário de volta p/ rota inicial
       this.props.history.push('/');
-
-      // se estivesse enviando apenas texto (json):
-      // await api.post('posts', {
-      //    author,
-      // } )
-
    }
 
    // atribuir o valor da imagem (que chega como array)
@@ -47,7 +40,6 @@ class New extends Component {
    handleChange = e => {
       this.setState({ [e.target.name]: e.target.value });
    }
-
 
    render() {
       return(

@@ -13,7 +13,7 @@ mongoose.connect('mongodb+srv://semana:semana@cluster0-jnqu6.mongodb.net/test?re
 });
 
 // permite enviar info em tempo real a todas a rotas
-// acesso ao IO em toda os controllers
+// acesso ao IO em todos os controllers
 app.use((req, res, next) => {
    req.io = io;
 
