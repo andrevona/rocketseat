@@ -7,12 +7,12 @@ import New from './pages/New';
 // Switch usado para a aplicação não acessar duas rotas ao mesmo tempo
 
 function Routes() {
-   return (
-      <Switch>
-         <Route path="/" exact component={Feed} />
-         <Route path="/new" component={New} />
-      </Switch>
-   )
+  return (
+    <Switch>
+      <Route path="/" exact component={Feed} />
+      <Route path="/new" component={New} />
+    </Switch>
+  )
 }
 // as rotas também são componentes
 

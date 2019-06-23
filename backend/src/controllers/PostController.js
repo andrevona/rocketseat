@@ -4,44 +4,44 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = {
-   async index(req, res) {
-      const posts = await Post.find().sort('-createdAt');
+  async index(req, res) {
+    const posts = await Post.find().sort('-createdAt');
 
-      return res.json(posts);
-   },
+    return res.json(posts);
+  },
 
-   async store(req, res) {
-      // req.body => informações enviadas
-      // req.file => imagem enviada
-      const { author, place, description, hashtags } = req.body;
-      const { filename: image } = req.file;
+  async store(req, res) {
+    // req.body => informações enviadas
+    // req.file => imagem enviada
+    const { author, place, description, hashtags } = req.body;
+    const { filename: image } = req.file;
 
-      const [name, ext] = image.split('.');
-      const fileName = `${name}.jpg`;
+    const [name, ext] = image.split('.');
+    const fileName = `${name}.jpg`;
 
-      await sharp(req.file.path)
-         .resize(500)
-         .jpeg({ quality: 70 })
-         .toFile(
-               path.resolve(req.file.destination, 'resized', fileName)
-         )
+    await sharp(req.file.path)
+      .resize(500)
+      .jpeg({ quality: 70 })
+      .toFile(
+        path.resolve(req.file.destination, 'resized', fileName)
+      )
 
-      // destination  => caminho até a imagem (pasta onde ela está)
-      // path         => caminho DA imagem
-      fs.unlinkSync(req.file.path);
+    // destination  => caminho até a imagem (pasta onde ela está)
+    // path         => caminho DA imagem
+    fs.unlinkSync(req.file.path);
 
-      const post = await Post.create({
-         author,
-         place,
-         description,
-         hashtags,
-         image: fileName,
-      });
+    const post = await Post.create({
+      author,
+      place,
+      description,
+      hashtags,
+      image: fileName,
+    });
 
-      // envia info em tempo real de novo post a todos
-      // msg de nome 'post'
-      req.io.emit('post', post);
+    // envia info em tempo real de novo post a todos
+    // msg de nome 'post'
+    req.io.emit('post', post);
 
-      return res.json(post);
-   }
+    return res.json(post);
+  }
 };
